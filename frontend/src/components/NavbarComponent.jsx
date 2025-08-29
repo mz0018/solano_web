@@ -1,20 +1,13 @@
 import { useState, Suspense, lazy } from "react";
+import { Nav_links } from "./NavlinkStructure";
 const SidebarComponents = lazy(() => import('./SidebarComponents'));
 const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
+
+import { Menu } from "../icons/lucide_icons";
 
 const NavbarComponent = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const links = [
-        { name: 'Home' },
-        { name: 'About us' },
-        { name: 'Services' },
-        { name: 'Transparency' },
-        { name: 'Downloadable Form' },
-        { name: 'Contact' }
-    ]
-
     const toggleDrawer = () => setIsSidebarOpen(prev => !prev);
 
   return (
@@ -27,25 +20,48 @@ const NavbarComponent = () => {
             alt="LGU Solano Logo"
             className="h-12 md:h-16 lg:h-24 w-auto"
           />
-          <span className="font-bold text-lg text-gray-800 truncate">LGU SOLANO</span>
+          <span className="font-bold text-lg text-gray-700 truncate">LGU SOLANO</span>
         </div>
 
         
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          {links.map((link, index) => (
-            <li key={index} className="truncate cursor-pointer" >{link.name}</li>
+          {Nav_links.map((link, index) => (
+            <li
+              key={index}
+              className="relative group cursor-pointer text-sm md:text-md lg:text-lg"
+            >
+              <div className="flex items-center gap-1 hover:text-gray-500 transition-all">
+                <span>{link.name}</span>
+                {link.icon}
+              </div>
+
+              {link.submenu && (
+                <ul className="absolute left-0 top-full mt-2 w-56 bg-white shadow-md rounded-md py-2 z-50 hidden group-hover:block group-hover:flex flex-col">
+                  {link.submenu.map((item, subIndex) => (
+                    <li
+                      key={subIndex}
+                      className="px-4 py-2 hover:bg-gray-100 text-gray-700"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
           ))}
         </ul>
 
         <button
         onClick={toggleDrawer} 
-        className="md:hidden p-2 bg-green-500 text-white rounded-md"
-        >Drawer</button>
+        className="md:hidden cursor-pointer"
+        >
+          <Menu />
+        </button>
 
         {isSidebarOpen && (
             <Suspense fallback={SidebarFallback}>
                 <SidebarComponents
-                links={links}
+                links={Nav_links}
                 onClose={toggleDrawer}
                 />
             </Suspense>
