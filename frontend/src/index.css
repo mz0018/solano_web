@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.masked-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("/img/jp.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 15%,
+    black 90%,
+    black 100%
+  );
+  mask-mode: alpha;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+
+  z-index: 0;
+}
