@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from "react";
+import { useState, Suspense, lazy, useRef } from "react";
 import { Nav_links } from "./NavlinkStructure";
 const SidebarComponents = lazy(() => import('./SidebarComponents'));
 const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
@@ -6,9 +6,23 @@ const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
 import { Menu } from "../icons/lucide_icons";
 
 const NavbarComponent = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const toggleDrawer = () => setIsSidebarOpen(prev => !prev);
+  const closeTimeout = useRef(null);
+
+  const toggleDrawer = () => setIsSidebarOpen(prev => !prev);
+
+  const handleMouseEnter = (index) => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setOpenSubmenuIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimeout.current = setTimeout(() => {
+      setOpenSubmenuIndex(null);
+    }, 200);
+  };
 
   return (
     <nav className="bg-[#FBFFFF] shadow-xl py-4 md:py-5 lg:py-6">
@@ -23,20 +37,21 @@ const NavbarComponent = () => {
           <span className="font-bold text-lg text-gray-700 truncate">LGU SOLANO</span>
         </div>
 
-        
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           {Nav_links.map((link, index) => (
             <li
               key={index}
-              className="relative group cursor-pointer text-sm md:text-md lg:text-lg"
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+              className="relative cursor-pointer text-sm md:text-md lg:text-lg"
             >
               <div className="flex items-center gap-1 hover:text-gray-500 transition-all">
                 <span>{link.name}</span>
                 {link.icon}
               </div>
 
-              {link.submenu && (
-                <ul className="absolute left-0 top-full mt-2 w-56 bg-white shadow-md rounded-md py-2 z-50 hidden group-hover:block group-hover:flex flex-col">
+              {openSubmenuIndex === index && link.submenu && (
+                <ul className="absolute left-0 top-full mt-2 w-56 bg-white shadow-md rounded-md py-2 z-50 flex flex-col">
                   {link.submenu.map((item, subIndex) => (
                     <li
                       key={subIndex}
@@ -52,19 +67,19 @@ const NavbarComponent = () => {
         </ul>
 
         <button
-        onClick={toggleDrawer} 
-        className="md:hidden cursor-pointer"
+          onClick={toggleDrawer} 
+          className="md:hidden cursor-pointer"
         >
           <Menu />
         </button>
 
         {isSidebarOpen && (
-            <Suspense fallback={SidebarFallback}>
-                <SidebarComponents
-                links={Nav_links}
-                onClose={toggleDrawer}
-                />
-            </Suspense>
+          <Suspense fallback={<SidebarFallback />}>
+            <SidebarComponents
+              links={Nav_links}
+              onClose={toggleDrawer}
+            />
+          </Suspense>
         )}
 
       </div>
