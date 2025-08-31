@@ -45,7 +45,7 @@ const NavbarComponent = () => {
               onMouseLeave={handleMouseLeave}
               className="relative cursor-pointer text-sm md:text-md lg:text-lg"
             >
-              <div className="flex items-center gap-1 hover:text-gray-500 transition-all">
+              <div className="truncate flex items-center gap-1 hover:text-gray-500 transition-all">
                 <span>{link.name}</span>
                 {link.icon}
               </div>
@@ -57,7 +57,10 @@ const NavbarComponent = () => {
                       key={subIndex}
                       className="px-4 py-2 hover:bg-gray-100 text-gray-700"
                     >
-                      {item}
+                      <div className="flex items-center gap-1 hover:text-gray-500 transition-all">
+                        <span>{item.name}</span>
+                        <span className="ml-auto">{item.icon}</span>
+                      </div>
                     </li>
                   ))}
                 </ul>
