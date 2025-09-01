@@ -2,7 +2,7 @@ const HeaderSection = () => {
 
 
     return (
-        <div className="h-screen bg-blue-800">
+        <div className="h-screen">
             Header
         </div>
     )

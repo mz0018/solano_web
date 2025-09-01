@@ -1,15 +1,13 @@
-import { useState, Suspense, lazy, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Nav_links } from "./NavlinkStructure";
-import SidebarFallback from "../fallbacks/SidebarFallback"
-const SidebarComponents = lazy(() => import('./SidebarComponents'));
-// const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
-
 import { Menu } from "../icons/lucide_icons";
+import SidebarFallback from "../fallbacks/SidebarFallback";
+
+const SidebarComponents = lazy(() => import('./SidebarComponents'));
 
 const NavbarComponent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
-
   const [hoveredContent, setHoveredContent] = useState(null);
 
   const closeTimeout = useRef(null);
@@ -30,26 +28,25 @@ const NavbarComponent = () => {
 
   const handleContentMouseEnter = (index) => {
     if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
-    setHoveredContent(index)
+    setHoveredContent(index);
   };
 
   const handleContentMouseLeave = () => {
     hoveredContentTimeout.current = setTimeout(() => {
-      setHoveredContent(null)
+      setHoveredContent(null);
     }, 200);
   };
 
   useEffect(() => {
-      return () => {
-        if (closeTimeout.current) clearTimeout(closeTimeout.current);
-        if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
-      };
+    return () => {
+      if (closeTimeout.current) clearTimeout(closeTimeout.current);
+      if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
+    };
   }, []);
 
   return (
     <nav className="bg-[#FBFFFF] shadow-xl py-4 md:py-5 lg:py-6">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
         <div className="flex items-center space-x-2">
           <img
             src="/img/logo.png"
@@ -59,7 +56,7 @@ const NavbarComponent = () => {
           <span className="font-bold text-lg text-gray-700 truncate">LGU SOLANO</span>
         </div>
 
-        <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
+        <ul className="hidden lg:flex space-x-6 text-gray-700 font-medium">
           {Nav_links.map((link, index) => (
             <li
               key={index}
@@ -91,7 +88,7 @@ const NavbarComponent = () => {
                           {item.contents.map((contentItem, contentIndex) => (
                             <li
                               key={contentIndex}
-                              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 sm:px-4 sm:text-md md:px-5 md:text-lg"
                             >
                               {contentItem.title}
                             </li>
@@ -107,8 +104,8 @@ const NavbarComponent = () => {
         </ul>
 
         <button
-          onClick={toggleDrawer} 
-          className="md:hidden cursor-pointer"
+          onClick={toggleDrawer}
+          className="lg:hidden cursor-pointer"
         >
           <Menu />
         </button>
@@ -121,7 +118,6 @@ const NavbarComponent = () => {
             />
           </Suspense>
         )}
-
       </div>
     </nav>
   );
