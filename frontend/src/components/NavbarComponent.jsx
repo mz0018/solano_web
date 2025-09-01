@@ -1,7 +1,8 @@
-import { useState, Suspense, lazy, useRef } from "react";
+import { useState, Suspense, lazy, useRef, useEffect } from "react";
 import { Nav_links } from "./NavlinkStructure";
+import SidebarFallback from "../fallbacks/SidebarFallback"
 const SidebarComponents = lazy(() => import('./SidebarComponents'));
-const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
+// const SidebarFallback = lazy(() => import('../fallbacks/SidebarFallback'));
 
 import { Menu } from "../icons/lucide_icons";
 
@@ -9,7 +10,10 @@ const NavbarComponent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
 
+  const [hoveredContent, setHoveredContent] = useState(null);
+
   const closeTimeout = useRef(null);
+  const hoveredContentTimeout = useRef(null);
 
   const toggleDrawer = () => setIsSidebarOpen(prev => !prev);
 
@@ -23,6 +27,24 @@ const NavbarComponent = () => {
       setOpenSubmenuIndex(null);
     }, 200);
   };
+
+  const handleContentMouseEnter = (index) => {
+    if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
+    setHoveredContent(index)
+  };
+
+  const handleContentMouseLeave = () => {
+    hoveredContentTimeout.current = setTimeout(() => {
+      setHoveredContent(null)
+    }, 200);
+  };
+
+  useEffect(() => {
+      return () => {
+        if (closeTimeout.current) clearTimeout(closeTimeout.current);
+        if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
+      };
+  }, []);
 
   return (
     <nav className="bg-[#FBFFFF] shadow-xl py-4 md:py-5 lg:py-6">
@@ -55,12 +77,27 @@ const NavbarComponent = () => {
                   {link.submenu.map((item, subIndex) => (
                     <li
                       key={subIndex}
-                      className="px-4 py-2 hover:bg-gray-100 text-gray-700"
+                      onMouseEnter={() => handleContentMouseEnter(item.name)}
+                      onMouseLeave={handleContentMouseLeave}
+                      className="relative px-4 py-2 hover:bg-gray-100 text-gray-700"
                     >
                       <div className="flex items-center gap-1 hover:text-gray-500 transition-all">
                         <span>{item.name}</span>
                         <span className="ml-auto">{item.icon}</span>
                       </div>
+
+                      {item.contents && hoveredContent === item.name && (
+                        <ul className="absolute left-full top-0 ml-2 w-64 max-h-64 overflow-y-auto bg-white border border-gray-200 shadow-lg rounded-md py-2 z-50">
+                          {item.contents.map((contentItem, contentIndex) => (
+                            <li
+                              key={contentIndex}
+                              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              {contentItem.title}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
