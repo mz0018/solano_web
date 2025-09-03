@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import NavbarComponent from "./components/NavbarComponent";
-const HeaderSection = lazy(() => import('./sections/HeaderSection'));
-const HeaderFallback = lazy(() => import('./fallbacks/HeaderFallback'));
+const CarouselSection = lazy(() => import('./sections/CarouselSection'));
+const CarouselFallback = lazy(() => import('./fallbacks/CarouselFallback'));
 
 const App = () => {
 
@@ -9,9 +9,11 @@ const App = () => {
     <>
       <NavbarComponent />
 
-      <Suspense fallback={HeaderFallback}>
-        <HeaderSection />
+      <Suspense fallback={CarouselFallback}>
+        <CarouselSection />
       </Suspense>
+
+      
     </>
   );
 };
