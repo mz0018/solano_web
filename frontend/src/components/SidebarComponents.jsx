@@ -1,36 +1,38 @@
 import { useState, useRef, useEffect } from "react";
+import { ChevronLeft } from "lucide-react";
 
 const SidebarComponents = ({ links, onClose }) => {
   const [currentView, setCurrentView] = useState("main");
   const [submenuItems, setSubmenuItems] = useState([]);
   const [contentItems, setContentItems] = useState([]);
+  const [activeTitle, setActiveTitle] = useState(""); // ✅ Track active name
 
   const sidebarRef = useRef();
 
   useEffect(() => {
-    
     const handleClickOutside = (e) => {
-        if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-            onClose();
-        }
-    }
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
-  }, [onClose]);   
-
-  const handleOpenSubmenu = (submenu) => {
+  const handleOpenSubmenu = (submenu, name) => {
     if (submenu) {
       setSubmenuItems(submenu);
       setCurrentView("submenu");
+      setActiveTitle(name); // ✅ Set name
     }
   };
 
-  const handleOpenContents = (contents) => {
+  const handleOpenContents = (contents, name) => {
     if (contents) {
       setContentItems(contents);
       setCurrentView("content");
+      setActiveTitle(name); // ✅ Set name
     }
   };
 
@@ -42,31 +44,44 @@ const SidebarComponents = ({ links, onClose }) => {
       setCurrentView("main");
       setSubmenuItems([]);
     }
+
+    setActiveTitle("");
   };
 
   return (
     <div
-    ref={sidebarRef} 
-    className="lg:hidden bg-[#FBFFFF] fixed top-0 right-0 h-full w-80 p-5 z-50 shadow-lg overflow-y-auto">
-      <div className="mb-4 flex justify-between items-center">
-        {currentView !== "main" ? (
-          <button onClick={handleBack} className="text-blue-600">
-            Go Back
-          </button>
-        ) : (
-          <button onClick={onClose} className="text-red-600">
-            Close
-          </button>
+      ref={sidebarRef}
+      className="lg:hidden bg-[#FBFFFF] fixed top-0 right-0 h-full w-80 p-5 z-50 shadow-lg overflow-y-auto"
+    >
+      <div className="mb-4 flex flex-col gap-2">
+        {currentView !== "main" && (
+          <>
+            <button
+              onClick={handleBack}
+              className="text-gray-500 flex items-center gap-1 cursor-pointer"
+            >
+              <ChevronLeft />
+              <span>Go Back</span>
+            </button>
+            <div className="relative w-full overflow-hidden">
+              <span className="text-gray-700 font-semibold block">{activeTitle}</span>
+              <span
+                className={`block h-0.5 bg-gray-300 origin-right transition-transform duration-500 ease-out ${
+                  activeTitle ? "scale-x-100" : "scale-x-0"
+                }`}
+              ></span>
+            </div>
+          </>
         )}
       </div>
 
       <ul className="text-gray-700 font-medium space-y-6">
         {currentView === "main" &&
-          links.map((link, index) => (
+          links.map((link) => (
             <li
-              key={index}
-              className="flex items-center justify-between hover:text-gray-500 cursor-pointer"
-              onClick={() => handleOpenSubmenu(link.submenu)}
+              key={link.name}
+              className="flex items-center justify-between text-lg hover:text-gray-500 cursor-pointer"
+              onClick={() => handleOpenSubmenu(link.submenu, link.name)}
             >
               <span>{link.name}</span>
               {link.icon && <span>{link.icon}</span>}
@@ -74,11 +89,11 @@ const SidebarComponents = ({ links, onClose }) => {
           ))}
 
         {currentView === "submenu" &&
-          submenuItems.map((item, index) => (
+          submenuItems.map((item) => (
             <li
-              key={index}
-              className="flex items-center justify-between hover:text-gray-500 hover:bg-gray-100 cursor-pointer"
-              onClick={() => handleOpenContents(item.contents)}
+              key={item.name}
+              className="flex items-center justify-between text-md hover:text-gray-500 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleOpenContents(item.contents, item.name)}
             >
               <span>{item.name}</span>
               {item.icon && <span>{item.icon}</span>}
@@ -86,10 +101,10 @@ const SidebarComponents = ({ links, onClose }) => {
           ))}
 
         {currentView === "content" &&
-          contentItems.map((content, index) => (
+          contentItems.map((content) => (
             <li
-              key={index}
-              className="px-2 py-1 text-gray-700 hover:text-gray-500 hover:bg-gray-100 rounded cursor-pointer"
+              key={content.title}
+              className="px-2 py-1 text-gray-700 text-sm hover:text-gray-500 hover:bg-gray-100 rounded cursor-pointer"
             >
               {content.title}
             </li>
