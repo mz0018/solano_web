@@ -1,5 +1,6 @@
 export {
     Menu,
     ChevronDown,
-    ChevronRight
+    ChevronRight,
+    ChevronLeft
  } from "lucide-react";

@@ -45,7 +45,7 @@ const NavbarComponent = () => {
   }, []);
 
   return (
-    <nav className="bg-[#FBFFFF] shadow-xl py-4 md:py-5 lg:py-6">
+    <nav className="bg-[#FBFFFF] py-4 md:py-5 lg:py-6">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <img
