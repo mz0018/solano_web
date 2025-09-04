@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { lazy, useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "../icons/lucide_icons";
 
+const CarouselChildSection = lazy(() => import('./CarouselChildSection'))
+
 const images = [
-    { path: "/img/carousel/two.webp", alt: "Second slide" },
-    { path: "/img/carousel/one.webp", alt: "First slide" },
-    { path: "/img/carousel/three.webp", alt: "Third slide" },
+    { path: "/img/carousel/two.webp", alt: "One Solano, Love Solano" },
+    { path: "/img/carousel/one.webp", alt: "Solano" },
+    { path: "/img/carousel/three.webp", alt: "Municipal Hall" },
 ];
 
 images.forEach((img) => {
@@ -71,13 +73,13 @@ const CarouselSection = () => {
             role="region"
             aria-label="Image Carousel"
         >
-            <figure className="relative w-full min-h-[200px] md:min-h-[400px] lg:min-h-[500px]">
+            <figure className="relative w-full min-h-[200px] md:min-h-[400px] lg:min-h-[450px]">
                 {images.map((img, index) => (
                     <img
                         key={img.path}
                         src={img.path}
                         alt={img.alt}
-                        className={`w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-700 ease-in-out
+                        className={`w-full min-h-full object-cover absolute top-0 left-0 transition-opacity duration-700 ease-in-out
                             ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                         loading={index === 0 ? "eager" : "lazy"}
                         aria-hidden={index !== currentIndex}
@@ -85,17 +87,16 @@ const CarouselSection = () => {
                 ))}
                 <figcaption className="sr-only">{images[currentIndex].alt}</figcaption>
 
-                <div className="absolute inset-0 bg-gray-500/50 z-20 pointer-events-none" aria-hidden="true" >
-                    {/**Child Carousel content here */}
-                    
+                <div className="absolute inset-0 z-20 pointer-events-none" aria-hidden="true" >
+                    <CarouselChildSection currentIndex={images[currentIndex]} />
                 </div>
 
             </figure>
 
             <button
                 onClick={goToPrev}
-                className={`absolute top-1/2 left-4 transform -translate-y-1/2 
-                    bg-opacity-70 hover:bg-opacity-90 text-white px-3 py-2 rounded 
+                className={`bg-gray-900/50 absolute top-1/2 left-4 transform -translate-y-1/2 
+                    bg-opacity-70 hover:bg-opacity-90 text-white px-3 py-2 rounded-md 
                     z-20 cursor-pointer transition-opacity duration-300 ${isButtonVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 aria-label="Previous Slide"
             >
@@ -104,8 +105,8 @@ const CarouselSection = () => {
 
             <button
                 onClick={goToNext}
-                className={`absolute top-1/2 right-4 transform -translate-y-1/2 
-                    bg-opacity-70 hover:bg-opacity-90 text-white px-3 py-2 rounded 
+                className={`bg-gray-900/50 absolute top-1/2 right-4 transform -translate-y-1/2 
+                    bg-opacity-70 hover:bg-opacity-90 text-white px-3 py-2 rounded-md 
                     z-20 cursor-pointer transition-opacity duration-300 ${isButtonVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 aria-label="Next Slide"
             >

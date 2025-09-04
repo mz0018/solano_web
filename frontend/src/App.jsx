@@ -9,7 +9,7 @@ const App = () => {
     <>
       <NavbarComponent />
 
-      <Suspense fallback={CarouselFallback}>
+      <Suspense fallback={<CarouselFallback />}>
         <CarouselSection />
       </Suspense>
 
