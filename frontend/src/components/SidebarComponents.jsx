@@ -58,7 +58,7 @@ const SidebarComponents = ({ links, onClose, isVisible }) => {
       ref={sidebarRef}
       aria-hidden={!isVisible}
       className={`
-        lg:hidden fixed top-0 right-0 h-full w-80 p-5 z-50 bg-[#FBFFFF] shadow-lg overflow-y-auto
+        lg:hidden fixed top-0 right-0 h-full w-80 p-5 z-[60] bg-[#FBFFFF] shadow-lg overflow-y-auto
         transition-all transform duration-300 ease-in-out
         ${isVisible && hasMounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}
       `}
