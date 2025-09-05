@@ -69,7 +69,7 @@ const CarouselSection = () => {
         <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative w-full max-h-[200px] md:max-h-[400px] lg:max-h-[500px] overflow-hidden shadow-xl"
+            className="relative w-full max-h-[200px] md:max-h-[400px] lg:max-h-[500px] overflow-hidden drop-shadow-2xl"
             role="region"
             aria-label="Image Carousel"
         >

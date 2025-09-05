@@ -28,8 +28,8 @@ const WhatWeDoSection = () => {
 
     return (
         <section
-            className="bg-white text-gray-900 py-16 px-4 sm:px-6 lg:px-20"
-            aria-labelledby="what-we-do-heading"
+        className="bg-white text-gray-900 py-16 px-4 sm:px-6 lg:px-20"
+        aria-labelledby="what-we-do-heading"
         >
             <div className="max-w-4xl mx-auto text-center mb-12">
                 <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
@@ -52,13 +52,15 @@ const WhatWeDoSection = () => {
                 {services.map(({ title, description, icon, link }, index) => (
                     <article
                         key={index}
+                        onClick={() => console.log(title)}
                         className="group bg-blue-50 border border-blue-100 rounded-lg p-6 shadow-sm hover:shadow-lg transition duration-300"
                     >
-                        <div className="flex items-center gap-3 mb-4 text-blue-600">
+                        <div 
+                        className="flex items-center gap-3 mb-4 text-blue-600">
                             <span className="text-3xl">{icon}</span>
-                            <h3 className="text-xl font-semibold line-clamp-1">{title}</h3>
+                            <h3 className="text-xl md:text-2xl lg:text-2xl font-semibold line-clamp-1">{title}</h3>
                         </div>
-                        <p className="text-gray-700 text-sm mb-6">{description}</p>
+                        <p className="text-gray-700 text-sm md:text-base mb-6">{description}</p>
                         <a
                             href={link}
                             className="inline-block text-sm font-medium text-blue-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded transition"
