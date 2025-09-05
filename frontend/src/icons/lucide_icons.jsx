@@ -2,5 +2,8 @@ export {
     Menu,
     ChevronDown,
     ChevronRight,
-    ChevronLeft
+    ChevronLeft,
+    Handshake,
+    FileUser,
+    HandCoins
  } from "lucide-react";

@@ -56,18 +56,22 @@ const NavbarComponent = () => {
   }, [isSidebarOpen]);
 
   return (
-    <nav className="bg-[#FBFFFF] py-4 md:py-5 lg:py-6">
+    <nav className="sticky top-0 z-50 bg-[#FBFFFF] shadow-md py-4 md:py-5 lg:py-6">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <img
             src="/img/logo.png"
             alt="LGU Solano Logo"
-            className="h-12 md:h-16 lg:h-24 w-auto"
+            className="h-14 md:h-18 lg:h-24 w-auto"
           />
-          <span className="font-bold text-lg text-gray-700 truncate">LGU SOLANO</span>
+          <img
+            src="/img/love,solano.png"
+            alt="Love Solano"
+            className="h-14 md:min-h-18 lg:h-24 w-auto mt-5"
+          />
         </div>
 
-        <ul className="hidden lg:flex space-x-6 text-gray-700 font-medium">
+        <ul className="hidden lg:flex space-x-6 lg:space-x-2 text-gray-700 font-medium">
           {Nav_links.map((link, index) => (
             <li
               key={index}
