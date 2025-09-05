@@ -1,6 +1,11 @@
 const SidebarFallback = () => {
   return (
-    <div className="lg:hidden bg-[#FBFFFF] fixed top-0 right-0 h-full w-80 p-5 z-50 shadow-lg overflow-y-auto">
+    <div
+      className={`
+        lg:hidden fixed top-0 right-0 h-full w-80 p-5 z-50 bg-[#FBFFFF] shadow-lg overflow-y-auto
+        transition-all transform duration-300 ease-in-out opacity-100 translate-x-0
+      `}
+    >
       <div className="space-y-4 animate-pulse">
         <div className="h-6 bg-gray-300 rounded w-24 mb-4" />
 

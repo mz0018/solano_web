@@ -10,6 +10,8 @@ const NavbarComponent = () => {
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
   const [hoveredContent, setHoveredContent] = useState(null);
 
+  const [shouldRenderSidebar, setShouldRenderSidebar] = useState(false);
+
   const closeTimeout = useRef(null);
   const hoveredContentTimeout = useRef(null);
 
@@ -43,6 +45,15 @@ const NavbarComponent = () => {
       if (hoveredContentTimeout.current) clearTimeout(hoveredContentTimeout.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (isSidebarOpen) {
+      setShouldRenderSidebar(true);
+    } else {
+      const timeout = setTimeout(() => setShouldRenderSidebar(false), 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [isSidebarOpen]);
 
   return (
     <nav className="bg-[#FBFFFF] py-4 md:py-5 lg:py-6">
@@ -110,13 +121,24 @@ const NavbarComponent = () => {
           <Menu />
         </button>
 
-        {isSidebarOpen && (
-          <Suspense fallback={<SidebarFallback />}>
-            <SidebarComponents
-              links={Nav_links}
-              onClose={toggleDrawer}
-            />
-          </Suspense>
+        {shouldRenderSidebar && (
+          <>
+            <Suspense fallback={<SidebarFallback isVisible={isSidebarOpen} />}>
+              <SidebarComponents
+                links={Nav_links}
+                onClose={toggleDrawer}
+                isVisible={isSidebarOpen}
+              />
+            </Suspense>
+
+            <div
+              className={`
+                fixed inset-0 bg-gray-500 transition-opacity duration-300 ease-in-out z-40
+                ${isSidebarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}
+              `}
+              onClick={toggleDrawer}
+            ></div>
+          </>
         )}
       </div>
     </nav>

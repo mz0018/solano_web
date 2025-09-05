@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 
-const SidebarComponents = ({ links, onClose }) => {
+const SidebarComponents = ({ links, onClose, isVisible }) => {
   const [currentView, setCurrentView] = useState("main");
   const [submenuItems, setSubmenuItems] = useState([]);
   const [contentItems, setContentItems] = useState([]);
-  const [activeTitle, setActiveTitle] = useState(""); // ✅ Track active name
+  const [activeTitle, setActiveTitle] = useState("");
+  const [hasMounted, setHasMounted] = useState(false);
 
   const sidebarRef = useRef();
 
@@ -20,11 +21,15 @@ const SidebarComponents = ({ links, onClose }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const handleOpenSubmenu = (submenu, name) => {
     if (submenu) {
       setSubmenuItems(submenu);
       setCurrentView("submenu");
-      setActiveTitle(name); // ✅ Set name
+      setActiveTitle(name);
     }
   };
 
@@ -32,7 +37,7 @@ const SidebarComponents = ({ links, onClose }) => {
     if (contents) {
       setContentItems(contents);
       setCurrentView("content");
-      setActiveTitle(name); // ✅ Set name
+      setActiveTitle(name);
     }
   };
 
@@ -51,7 +56,12 @@ const SidebarComponents = ({ links, onClose }) => {
   return (
     <div
       ref={sidebarRef}
-      className="lg:hidden bg-[#FBFFFF] fixed top-0 right-0 h-full w-80 p-5 z-50 shadow-lg overflow-y-auto"
+      aria-hidden={!isVisible}
+      className={`
+        lg:hidden fixed top-0 right-0 h-full w-80 p-5 z-50 bg-[#FBFFFF] shadow-lg overflow-y-auto
+        transition-all transform duration-300 ease-in-out
+        ${isVisible && hasMounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}
+      `}
     >
       <div className="mb-4 flex flex-col gap-2">
         {currentView !== "main" && (
