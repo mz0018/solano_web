@@ -5,5 +5,8 @@ export {
     ChevronLeft,
     Handshake,
     FileUser,
-    HandCoins
+    HandCoins,
+    Clock8,
+    ThumbsUpIcon,
+    Users2
  } from "lucide-react";

@@ -63,7 +63,7 @@ const WhatWeDoSection = () => {
                         <p className="text-gray-700 text-sm md:text-base mb-6">{description}</p>
                         <a
                             href={link}
-                            className="inline-block text-sm font-medium text-blue-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded transition"
+                            className="inline-block text-md font-bold text-blue-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded transition uppercase"
                         >
                             Learn more &rarr;
                         </a>
