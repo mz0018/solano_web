@@ -6,7 +6,8 @@ const CarouselFallback = lazy(() => import('./fallbacks/CarouselFallback'));
 // const WhatWeDoSection = lazy(() => import('./sections/WhatWeDoSection'));
 // const WhySolanoSection = lazy(() => import('./sections/WhySolanoSection')); 
 const WhySolanoFallback = lazy(() => import('./fallbacks/WhySolanoFallback'));
-const SubFooterSection = lazy(() => import('./sections/SubFooterSection'));
+// const SubFooterSection = lazy(() => import('./sections/SubFooterSection'));
+const SubFooterFallback = lazy(() => import('./fallbacks/SubfooterFallback'));
 
 const WhatWeDoSection = lazy(() => 
   new Promise((resolve) => {
@@ -32,6 +33,14 @@ const WhySolanoSection = lazy(() =>
   })
 )
 
+const SubFooterSection = lazy(() => 
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(import('./sections/SubFooterSection'))
+    }, 20000)
+  })
+)
+
 const App = () => {
 
   return (
@@ -50,7 +59,7 @@ const App = () => {
         <WhySolanoSection />
       </Suspense>
 
-      <Suspense>
+      <Suspense fallback={<SubFooterFallback />}>
         <SubFooterSection />
       </Suspense>
     </>
