@@ -1,45 +1,23 @@
 import { lazy, Suspense } from "react";
 import NavbarComponent from "./components/NavbarComponent";
 import WhatWeDoFallback from "./fallbacks/WhatWeDoFallback";
-// const CarouselSection = lazy(() => import('./sections/CarouselSection'));
+const CarouselSection = lazy(() => import('./sections/CarouselSection'));
 const CarouselFallback = lazy(() => import('./fallbacks/CarouselFallback'));
-// const WhatWeDoSection = lazy(() => import('./sections/WhatWeDoSection'));
-// const WhySolanoSection = lazy(() => import('./sections/WhySolanoSection')); 
+const WhatWeDoSection = lazy(() => import('./sections/WhatWeDoSection'));
+const WhySolanoSection = lazy(() => import('./sections/WhySolanoSection')); 
 const WhySolanoFallback = lazy(() => import('./fallbacks/WhySolanoFallback'));
-// const SubFooterSection = lazy(() => import('./sections/SubFooterSection'));
+const SubFooterSection = lazy(() => import('./sections/SubFooterSection'));
 const SubFooterFallback = lazy(() => import('./fallbacks/SubfooterFallback'));
+const FooterSection = lazy(() => import('./sections/FooterSection'));
+const FooterFallback = lazy(() => import('./fallbacks/FooterFallback'));
 
-const WhatWeDoSection = lazy(() => 
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(import('./sections/WhatWeDoSection'))
-    }, 20000)
-  })
-)
-
-const CarouselSection = lazy(() => 
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(import('./sections/CarouselSection'))
-    }, 20000)
-  })
-)
-
-const WhySolanoSection = lazy(() => 
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(import('./sections/WhySolanoSection'))
-    }, 20000)
-  })
-)
-
-const SubFooterSection = lazy(() => 
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(import('./sections/SubFooterSection'))
-    }, 20000)
-  })
-)
+// const FooterSection = lazy(() => 
+//   new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(import('./sections/FooterSection'))
+//     }, 50000)
+//   })
+// )
 
 const App = () => {
 
@@ -61,6 +39,10 @@ const App = () => {
 
       <Suspense fallback={<SubFooterFallback />}>
         <SubFooterSection />
+      </Suspense>
+
+      <Suspense fallback={<FooterFallback />}>
+        <FooterSection />
       </Suspense>
     </>
   );
