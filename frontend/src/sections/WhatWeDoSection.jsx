@@ -8,21 +8,21 @@ const WhatWeDoSection = () => {
             description:
                 "Doing business has never been this fast and easy! Register your business online.",
             icon: <Handshake />,
-            link: "#",
+            link: "/business",
         },
         {
             title: "Application of Incentives",
             description:
                 "Register and apply to avail our fiscal and non-fiscal incentives!",
             icon: <FileUser />,
-            link: "#",
+            link: "application",
         },
         {
             title: "Cost of Doing Business",
             description:
                 "Discover the relatively low wage rate and other related costs!",
             icon: <HandCoins />,
-            link: "#",
+            link: "cost",
         },
     ];
 
