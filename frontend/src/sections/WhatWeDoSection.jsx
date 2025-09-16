@@ -15,14 +15,14 @@ const WhatWeDoSection = () => {
             description:
                 "Register and apply to avail our fiscal and non-fiscal incentives!",
             icon: <FileUser />,
-            link: "application",
+            link: "/application",
         },
         {
             title: "Cost of Doing Business",
             description:
                 "Discover the relatively low wage rate and other related costs!",
             icon: <HandCoins />,
-            link: "cost",
+            link: "/cost",
         },
     ];
 

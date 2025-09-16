@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronRight } from "../icons/lucide_icons";
 
 export const Nav_links = [
-  { name: "Home", icon: null, submenu: null },
+  { name: "Home", icon: null, submenu: null, link: "/" },
 
   {
     name: "About us",
@@ -95,9 +95,10 @@ export const Nav_links = [
       ]
       },
     ],
+    link: null
   },
 
-  { name: "Services", icon: null, submenu: null },
+  { name: "Services", icon: null, submenu: null, link: "/services" },
   {
     name: "Transparency",
     icon: <ChevronDown className="h-4 mt-1" />,
@@ -115,7 +116,8 @@ export const Nav_links = [
       ]
       },
     ],
+    link: null
   },
-  { name: "Downloadable Forms", icon: null, submenu: null },
-  { name: "Contact", icon: null, submenu: null },
+  { name: "Downloadable Forms", icon: null, submenu: null, link: "/forms" },
+  { name: "Contact", icon: null, submenu: null, link: "/contact" },
 ];

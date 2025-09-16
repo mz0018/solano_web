@@ -79,11 +79,24 @@ const NavbarComponent = () => {
                 onMouseLeave={handleMouseLeave}
                 className="relative cursor-pointer text-sm md:text-md lg:text-lg"
               >
-                <div className="truncate flex items-center gap-1 hover:text-gray-500 transition-all">
-                  <span>{link.name}</span>
-                  {link.icon}
-                </div>
+                {link.submenu ? (
+                  // If link has submenu
+                  <div className="truncate flex items-center gap-1 hover:text-gray-500 transition-all">
+                    <a href={link.link || "#"}>{link.name}</a>
+                    {link.icon}
+                  </div>
+                ) : (
+                  // If no submenu, make it a normal link
+                  <a
+                    href={link.link || "#"}
+                    className="truncate flex items-center gap-1 hover:text-gray-500 transition-all"
+                  >
+                    <span>{link.name}</span>
+                    {link.icon}
+                  </a>
+                )}
 
+                {/* Submenu */}
                 {openSubmenuIndex === index && link.submenu && (
                   <ul className="absolute left-0 top-full mt-2 w-56 bg-white shadow-md rounded-md py-2 z-50 flex flex-col">
                     {link.submenu.map((item, subIndex) => (
@@ -117,6 +130,7 @@ const NavbarComponent = () => {
               </li>
             ))}
           </ul>
+
 
           <button
             onClick={toggleDrawer}
